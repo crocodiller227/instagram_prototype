@@ -78,3 +78,14 @@ fos_user:
         address: "%mailer_user%"
         sender_name: "%mailer_user%"
 
+vich_uploader:
+    db_driver: orm
+    mappings:
+        avatar_file:
+            uri_prefix:         /images/avatars
+            upload_destination: %kernel.root_dir%/../web/images/avatars
+            namer:              vich_uploader.namer_uniqid
+        user_photos:
+            uri_prefix:         /images/photos
+            upload_destination: %kernel.root_dir%/../web/images/photos
+            namer:              vich_uploader.namer_uniqid

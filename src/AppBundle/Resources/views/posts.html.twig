@@ -1,0 +1,28 @@
+{% extends "base.html.twig" %}
+
+{% block body %}
+    {% for post in posts %}
+        <div class="post">
+            <h3 class="post_header">{{ post.getTitle() }}</h3>
+            <div class="post_photo">
+                <img src="{{ post.getImage }}" alt="post_photo">
+            </div>
+            <div class="post_actions">
+                <button class="btn btn-info">like</button>
+                <button class="btn btn-info">follow</button>
+            </div>
+            <div class="comments">
+                {% for comment in comments %}
+                    <div class="comment">
+                        <div class="comment_avatar">
+                            <img src="{{ comment.getUser().getAvatar() }}" alt="">
+                        </div>
+                        <div class="comment_text">{{ comment.getComment() }}</div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <h2 class="none_posts">You are not follow to anyone</h2>
+    {% endfor %}
+{% endblock %}

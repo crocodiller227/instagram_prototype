@@ -48,17 +48,17 @@ class User extends BaseUser
     protected $posts;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      * @var string
      */
-    private $avatar;
+    protected $avatar;
 
     /**
      * @Vich\UploadableField(mapping="avatar_file", fileNameProperty="avatar")
      *
      * @var File
      */
-    private $avatarFile;
+    protected $avatarFile;
 
 
     public function __construct()

@@ -86,7 +86,6 @@ class Post
     }
 
 
-
     /**
      * Get id
      *
@@ -144,7 +143,7 @@ class Post
     {
         return $this->publish_date;
     }
-    
+
 
     /**
      * @param mixed $user
@@ -172,6 +171,14 @@ class Post
     {
         $this->comments[] = $comment;
         return $this;
+    }
+
+    static function cmp_obj($a, $b)
+    {
+        if ($a->getPublishDate() == $b->getPublishDate()) {
+            return 0;
+        }
+        return ($a->getPublishDate() > $b->getPublishDate()) ? +1 : -1;
     }
 }
 

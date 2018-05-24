@@ -39,6 +39,7 @@ framework:
 twig:
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
+    form_themes: ['bootstrap_4_layout.html.twig']
 
 # Doctrine Configuration
 doctrine:
@@ -77,6 +78,10 @@ fos_user:
     from_email:  # этот раздел используется для настройки отправки писем с подтверждением регистрации, он должен быть обязательно подключен
         address: "%mailer_user%"
         sender_name: "%mailer_user%"
+    registration:
+            form:
+                type: AppBundle\Form\RegistrationType
+
 
 vich_uploader:
     db_driver: orm

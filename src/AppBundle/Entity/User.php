@@ -12,7 +12,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="UserRepository")
  * @ORM\Table(name="fos_user")
  * @Vich\Uploadable
  */
@@ -60,6 +60,12 @@ class User extends BaseUser
      */
     protected $avatarFile;
 
+    /**
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="Post", mappedBy="likes")
+     */
+    private $likedPosts;
+
 
     public function __construct()
     {
@@ -67,6 +73,7 @@ class User extends BaseUser
         $this->posts = new ArrayCollection();
         $this->followers = new ArrayCollection();
         $this->following = new ArrayCollection();
+        $this->likedPosts = new ArrayCollection();
     }
 
     /**
@@ -101,7 +108,17 @@ class User extends BaseUser
      */
     public function addPost($post)
     {
-        $this->posts[] = $post;
+        $this->posts->add($post);
+        return $this;
+    }
+
+    /**
+     * @param Post $post
+     * @return User
+     */
+    public function removePost(Post $post)
+    {
+        $this->posts->removeElement($post);
         return $this;
     }
 
@@ -181,6 +198,32 @@ class User extends BaseUser
     public function getAvatar()
     {
         return $this->avatar;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getLikedPosts()
+    {
+        return $this->likedPosts;
+    }
+
+    /**
+     * @param Post $post
+     * @return User
+     */
+    public function addLikedPost(Post $post){
+        $this->likedPosts->add($post);
+        return $this;
+    }
+
+    /**
+     * @param Post $post
+     * @return User
+     */
+    public function removeLikedPost(Post $post){
+        $this->likedPosts->removeElement($post);
+        return $this;
     }
 
 

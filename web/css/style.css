@@ -25,3 +25,9 @@
 .user{
     text-align: center;
 }
+.grey_headers{
+    color: #6E6E6E;
+}
+.form_add_post{
+    margin: 5em;
+}

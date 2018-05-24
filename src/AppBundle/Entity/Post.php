@@ -2,6 +2,7 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -42,11 +43,17 @@ class Post
 
     /**
      *
-     * @Vich\UploadableField(mapping="user_photos", fileNameProperty="avatar")
+     * @Vich\UploadableField(mapping="user_photos", fileNameProperty="image")
      *
      * @var File
      */
-    private $imageFile;
+    private $pictureFile;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     * @var string
+     */
+    private $image;
 
     /**
      * @ORM\ManyToOne(targetEntity="User", inversedBy="posts")
@@ -61,23 +68,38 @@ class Post
     private $comments;
 
     /**
+     * @var ArrayCollection
+     * @ORM\ManyToMany(targetEntity="User", inversedBy="likedPosts")
+     */
+    private $likers;
+
+    /**
+     * Post constructor.
+     */
+    public function __construct()
+    {
+        $this->comments = new ArrayCollection();
+        $this->likers = new ArrayCollection();
+    }
+
+    /**
      *
      * @param File|UploadedFile $image
      *
      * @return Post
      */
-    public function setImageFile(File $image = null)
+    public function setPictureFile(File $image = null)
     {
-        $this->imageFile = $image;
+        $this->pictureFile = $image;
         return $this;
     }
 
     /**
      * @return File|null
      */
-    public function getImageFile()
+    public function getPictureFile()
     {
-        return $this->imageFile;
+        return $this->pictureFile;
     }
 
     public function __toString()
@@ -167,18 +189,69 @@ class Post
      * @param Comment $comment
      * @return Post
      */
-    public function setComments($comment)
+    public function addComments($comment)
     {
         $this->comments[] = $comment;
         return $this;
     }
 
+    /**
+     * @param Post $a
+     * @param Post $b
+     * @return int
+     */
     static function cmp_obj($a, $b)
     {
         if ($a->getPublishDate() == $b->getPublishDate()) {
             return 0;
         }
         return ($a->getPublishDate() > $b->getPublishDate()) ? +1 : -1;
+    }
+
+    /**
+     * @param string $image
+     * @return Post
+     */
+    public function setImage(string $image)
+    {
+        $this->image = $image;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImage()
+    {
+        return $this->image ?? null;
+    }
+
+    /**
+     * @return ArrayCollection
+     */
+    public function getLikers()
+    {
+        return $this->likers;
+    }
+
+    /**
+     * @param User $user
+     * @return Post
+     */
+    public function addLiker(User $user)
+    {
+        $this->likers->add($user);
+        return $this;
+    }
+
+    /**
+     * @param User $user
+     * @return Post
+     */
+    public function removeLiker(User $user)
+    {
+        $this->likers->removeElement($user);
+        return $this;
     }
 }
 

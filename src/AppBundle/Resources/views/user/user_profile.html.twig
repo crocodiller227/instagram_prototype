@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="user">
+        <div class="user_avatar" style="background-image: url({{ vich_uploader_asset(app.user, 'avatarFile') }})"></div>
+        <h2 class="grey_headers">{{ user.getUsername }}</h2>
+        <div class="following">
+            <button class="btn btn-info" disabled>Followers: {{ user.getFollowersAmount() }}</button>
+            <button class="btn btn-info" disabled>Followers: {{ user.getFollowingAmount() }}</button>
+            {% if form %}
+            <div class="form_add_post">
+                <h2 class="grey_headers">Add post</h2>
+                {{ include('@App/includes/form.html.twig') }}
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% include('@App/includes/posts.html.twig') with {'none_posts':'You did not add any posts.', 'user':user} %}
+{% endblock %}

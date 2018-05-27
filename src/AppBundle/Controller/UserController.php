@@ -19,20 +19,26 @@ class UserController extends Controller
 {
     /**
      * @Method("GET")
-     * @Route("/user/{id}")
+     * @Route("/user/{id}", name="user_profile")
      * @param $id
      * @return Response
      */
-    public function showUserProfileAction($id)
+    public function showUserProfileAction($id, EntityManagerInterface $em)
     {
         $form = '';
-        if($this->getUser()->getId() == $id){
+        $currentUser = $this->getUser();
+        if ($currentUser->getId() == $id) {
             $form = $this->createForm(AddPostType::class, new Post())->createView();
+            $user = $currentUser;
+        } else {
+            $user = $em
+                ->getRepository(User::class)
+                ->findOneBy(['id' => $id]);
         }
         return $this->render('@App/user/user_profile.html.twig', [
-            'user' => $this->getUser(),
+            'user' => $user,
             'form' => $form,
-            'posts' => $this->getUser()->getPosts()
+            'posts' => $user->getPosts()
         ]);
     }
 
@@ -43,7 +49,7 @@ class UserController extends Controller
      * @Method("POST")
      * @return JsonResponse
      */
-    public function followUser($user_id)
+    public function followUserAction($user_id, EntityManagerInterface $em)
     {
         $user = $this->getUser();
         $following_user = $this
@@ -51,13 +57,34 @@ class UserController extends Controller
             ->getRepository(User::class)
             ->findOneBy(['id' => $user_id]);
         $user->follow($following_user);
-        return new JsonResponse([], 200);
+        $em->flush();
+        return new JsonResponse(['message'=> 'You have successfully follow to the user'], 200);
     }
+
+    /**
+     * @Route("/unfollow/{user_id}")
+     * @Method("DELETE")
+     * @param $user_id
+     * @return JsonResponse
+     */
+    public function unfollowUserAction($user_id, EntityManagerInterface $em){
+        $user = $this->getUser();
+        $unfollowing_user = $this
+            ->getDoctrine()
+            ->getRepository(User::class)
+            ->findOneBy(['id' => $user_id]);
+        $user->unfollow($unfollowing_user);
+        $em->flush();
+        return new JsonResponse(['message' => 'You have successfully unfollow to the user'], 200);
+    }
+
+
 
     /**
      * @Route("/search_user/{username}")
      * @Method("POST")
      * @param string $username
+     * @param EntityManagerInterface $em
      * @return Response
      */
     public function searchUserAction($username, EntityManagerInterface $em)
@@ -66,10 +93,23 @@ class UserController extends Controller
             ->getRepository(User::class)
             ->findOneBy(['username' => $username]);
         if ($user) {
-          return new JsonResponse(['user_url' => $this->generateUrl(
-              "homepage", [],UrlGeneratorInterface::ABSOLUTE_URL) . "user/{$user->getId()}"
-          ]);
+            return new JsonResponse(['user_url' => $this->generateUrl(
+                    "homepage", [], UrlGeneratorInterface::ABSOLUTE_URL) . "user/{$user->getId()}"
+            ]);
         }
         return new JsonResponse(['message' => 'User not found'], 404);
+    }
+
+    /**
+     * @Route("/users/", name="show_all_users")
+     */
+    public function showAllUserAction(EntityManagerInterface $em)
+    {
+        $users = $em
+            ->getRepository(User::class)
+            ->findAll();
+        return $this->render('@App/user/all_users.html.twig', [
+            'users' => $users
+        ]);
     }
 }

@@ -19,7 +19,7 @@ class BaseController extends Controller
         $user = $this->getUser();
         if($user){
             foreach ($user->getFollowing() as $following){
-                foreach ($following->getPosts as $post){
+                foreach ($following->getPosts() as $post){
                     array_push($posts, $post);
                 }
             }

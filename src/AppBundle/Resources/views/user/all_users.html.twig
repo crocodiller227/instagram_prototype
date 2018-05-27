@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="all_users">
+        {% for user in users %}
+            <div class="user_min">
+                <div class="show_user_click" id="user_id_{{ user.getId() }}">
+                    <div class="user_avatar_min"
+                         style="background-image: url({{ vich_uploader_asset(user, 'avatarFile') }})"></div>
+                    <h6 class="username grey_headers">{{ user.getUsername() }}</h6>
+                </div>
+                {% if user.id == app.user.getId() %}
+                    <button class="btn btn-info" disabled>Follow</button>
+                {% else %}
+                    {% if app.user.checkFollowing(user) %}
+                        <button class="btn btn-success unfollow_user" id="unfollow_user_{{ user.getId() }}">Unfollow</button>
+                    {% else %}
+                        <button class="btn btn-info follow_user" id="follow_user_{{ user.getId() }}">Follow</button>
+                    {% endif %}
+                {% endif %}
+            </div>
+        {% endfor %}
+    </div>
+    <script src="{{ path('homepage') ~ 'js/open_user_page_by_click.js' }}"></script>
+    <script src="{{ path('homepage') ~ 'js/follow_unfollow_user.js' }}"></script>
+{% endblock %}
+

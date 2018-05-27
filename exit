@@ -1,0 +1,35 @@
+[33mcommit 5b431c9740c3bb4546d9e501f87dc2d5a24709d4[m
+Author: Stepanov Dmitry <crocodiller227@gmail.com>
+Date:   Fri May 25 04:39:50 2018 +0600
+
+    Create any twigs, rebuild enties, add controllers and actions, bugfix
+
+[33mcommit 85d19f5791eb78261caf42e30619cd2becf6e36c[m
+Author: Stepanov Dmitry <crocodiller227@gmail.com>
+Date:   Thu May 24 16:23:29 2018 +0600
+
+    Create twigs, create registerFotmType, bugfix
+
+[33mcommit 6e142c2821a1815b3ab318238a2d38dd4b5d6713[m
+Author: Stepanov Dmitry <crocodiller227@gmail.com>
+Date:   Thu May 24 02:51:40 2018 +0600
+
+    Redefining an entity User, creating an entity Post, creating an entity Comment
+
+[33mcommit 1c657b3f4ecf6ca3b189bff74380b853b9bf83a9[m
+Author: Stepanov Dmitry <crocodiller227@gmail.com>
+Date:   Wed May 23 00:46:12 2018 +0600
+
+    Installing and configuring the VichUploaderBundle
+
+[33mcommit 130dc1db5449a55bd749523594a238eb06da0daf[m
+Author: Stepanov Dmitry <crocodiller227@gmail.com>
+Date:   Wed May 23 00:19:14 2018 +0600
+
+    Installing and configuring the FOS UserBundle
+
+[33mcommit 83e7900ce6b409c59ef813c168c74b9e1ed9c214[m
+Author: Stepanov Dmitry <crocodiller227@gmail.com>
+Date:   Tue May 22 22:08:41 2018 +0600
+
+    Create an empty project and install Symfony

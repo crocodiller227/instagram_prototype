@@ -11,6 +11,7 @@
             {% if app.getUser %}
             <a class="nav-item nav-link" href="{{ path('homepage') ~ "user/" ~ app.user.getId() }}">My profile</a>
             <a class="nav-item nav-link" href="{{ path('homepage') }}">Posts feed</a>
+            <a href="{{ path('show_all_users') }}" class="nav-item nav-link">Show all users</a>
         </div>
     </div>
     <form class="form-inline my-2 my-lg-0">

@@ -1,24 +1,32 @@
 {% for post in posts %}
-    <div class="post">
-        <h3 class="post_header">{{ post.getTitle() }}</h3>
-        <div class="post_photo">
-            <img src="{{ post.getImage }}" alt="post_photo">
-        </div>
-        <div class="post_actions">
-            <button class="btn btn-info">like</button>
-            <button class="btn btn-info">follow</button>
-        </div>
-        <div class="comments">
-            {% for comment in post.getComments() %}
-                <div class="comment">
-                    <div class="comment_avatar">
-                        <img src="{{ comment.getUser().getAvatar() }}" alt="">
+    <div class="row">
+        <div class="post border col-md-11">
+            <h3 class="post_header">{{ post.getTitle() }}</h3>
+            <div class="post_photo" style="background-image: url({{ vich_uploader_asset(post, 'pictureFile') }})"></div>
+            <div class="post_actions like_post" id="like_post_id_{{ post.getId() }}">
+                {% if post.userRatedIt(app.user) %}
+                    <i class="fas fa-thumbs-up liked_click"></i>
+                    <span>{{ post.likesAmount() }}</span>
+                {% else %}
+                    <i class="far fa-thumbs-up like_click"></i>
+                    <span>{{ post.likesAmount() }}</span>
+                {% endif %}
+            </div>
+            <div class="comments">
+                {% for comment in post.getComments() %}
+                    <div class="comment">
+                        <div class="comment_avatar">
+                            <img src="{{ comment.getUser().getAvatar() }}" alt="">
+                        </div>
+                        <div class="comment_text">{{ comment.getComment() }}</div>
                     </div>
-                    <div class="comment_text">{{ comment.getComment() }}</div>
-                </div>
-            {% endfor %}
+                {% else %}
+                    <h2 class="grey_headers">No comments yet</h2>
+                {% endfor %}
+            </div>
         </div>
     </div>
 {% else %}
     <h2 class="none_posts">{{ none_posts }}</h2>
 {% endfor %}
+<script src="{{ path('homepage') ~ 'js/like_unlike_post.js' }}"></script>

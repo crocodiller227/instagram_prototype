@@ -2,11 +2,11 @@
 
 {% block body %}
     <div class="user">
-        <div class="user_avatar" style="background-image: url({{ vich_uploader_asset(app.user, 'avatarFile') }})"></div>
+        <div class="user_avatar" style="background-image: url({{ vich_uploader_asset(user, 'avatarFile') }})"></div>
         <h2 class="grey_headers">{{ user.getUsername }}</h2>
         <div class="following">
             <button class="btn btn-info" disabled>Followers: {{ user.getFollowersAmount() }}</button>
-            <button class="btn btn-info" disabled>Followers: {{ user.getFollowingAmount() }}</button>
+            <button class="btn btn-info" disabled>Following: {{ user.getFollowingAmount() }}</button>
             {% if form %}
             <div class="form_add_post">
                 <h2 class="grey_headers">Add post</h2>

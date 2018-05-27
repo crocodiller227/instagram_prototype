@@ -62,7 +62,7 @@ class User extends BaseUser
 
     /**
      * @var ArrayCollection
-     * @ORM\ManyToMany(targetEntity="Post", mappedBy="likes")
+     * @ORM\ManyToMany(targetEntity="Post", mappedBy="likers")
      */
     private $likedPosts;
 
@@ -146,7 +146,7 @@ class User extends BaseUser
      */
     public function unfollow(User $user)
     {
-        $this->following->remove($user);
+        $this->following->removeElement($user);
         return $this;
     }
 
@@ -183,6 +183,15 @@ class User extends BaseUser
     }
 
     /**
+     * @param User $user
+     * @return bool
+     */
+    public function checkFollowing(User $user)
+    {
+        return $this->following->contains($user);
+    }
+
+    /**
      * @param string $avatar
      * @return User
      */
@@ -212,7 +221,8 @@ class User extends BaseUser
      * @param Post $post
      * @return User
      */
-    public function addLikedPost(Post $post){
+    public function addLikedPost(Post $post)
+    {
         $this->likedPosts->add($post);
         return $this;
     }
@@ -221,7 +231,8 @@ class User extends BaseUser
      * @param Post $post
      * @return User
      */
-    public function removeLikedPost(Post $post){
+    public function removeLikedPost(Post $post)
+    {
         $this->likedPosts->removeElement($post);
         return $this;
     }

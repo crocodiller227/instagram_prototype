@@ -246,12 +246,35 @@ class Post
 
     /**
      * @param User $user
+     * @return boolean
+     */
+    public function userRatedIt(User $user){
+        return $this->likers->contains($user);
+    }
+
+    /**
+     * @return int
+     */
+    public function likesAmount(){
+        return count($this->likers);
+    }
+
+    /**
+     * @param User $user
      * @return Post
      */
     public function removeLiker(User $user)
     {
         $this->likers->removeElement($user);
         return $this;
+    }
+
+    /**
+     * @return Comment[]
+     */
+    public function getComments()
+    {
+        return $this->comments;
     }
 }
 

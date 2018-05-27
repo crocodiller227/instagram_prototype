@@ -4,6 +4,7 @@
 namespace AppBundle\Controller;
 
 
+use AppBundle\Entity\Comment;
 use AppBundle\Entity\Post;
 use AppBundle\Form\AddPostType;
 use Doctrine\ORM\EntityManagerInterface;
@@ -72,5 +73,27 @@ class PostController extends Controller
         dump($post);
         $em->flush();
         return new JsonResponse(['message' => 'Unliked!']);
+    }
+
+    /**
+     * @Route("/post/add_comment/{post_id}")
+     * @Method("POST")
+     * @param EntityManagerInterface $em
+     * @param Request $request
+     * @param $post_id
+     * @return JsonResponse
+     */
+    public function addCommentAction($post_id, Request $request, EntityManagerInterface $em)
+    {
+        $comment = new Comment();
+        $post = $em->getRepository(Post::class)->findOneBy(['id' => $post_id]);
+        $comment
+            ->setPublishDate(new \DateTime())
+            ->setUser($this->getUser())
+            ->setComment($request->request->get('comment'))
+            ->setPost($post);
+        $em->persist($comment);
+        $em->flush();
+        return new JsonResponse([], 200);
     }
 }

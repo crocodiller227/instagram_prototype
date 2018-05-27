@@ -19,8 +19,7 @@ $(document).ready(function () {
         let post_id = element_parent.attr('id').replace(/like_post_id_/gi, '');
         let like_amount_span = element_parent.children($('span'));
         let likes_amount = +like_amount_span.text();
-        $.post(`${root_url}like/${post_id}`, function (response) {
-            element.notify(response.message, "success");
+        $.post(`${root_url}like/${post_id}`, function () {
             element_parent.children().remove();
             element_parent.append(createLikeButton(post_id, likes_amount + 1, 'liked'));
         }).fail(function () {
@@ -37,8 +36,7 @@ $(document).ready(function () {
         $.ajax({
             url: `${root_url}unlike/${post_id}`,
             type: 'DELETE',
-            success: function (response) {
-                element.notify(response.message, "success");
+            success: function () {
                 element_parent.children().remove();
                 element_parent.append(createLikeButton(post_id, likes_amount - 1, 'like'));
             },

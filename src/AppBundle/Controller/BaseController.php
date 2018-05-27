@@ -2,6 +2,9 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Comment;
+use AppBundle\Form\AddCommentType;
+use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +16,7 @@ class BaseController extends Controller
      * @Route("/", name="homepage")
      * @return Response
      */
-    public function indexAction()
+    public function indexAction(EntityManagerInterface $em)
     {
         $posts = [];
         $user = $this->getUser();

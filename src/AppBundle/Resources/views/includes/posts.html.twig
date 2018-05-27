@@ -1,7 +1,17 @@
 {% for post in posts %}
     <div class="row">
         <div class="post border col-md-11">
-            <h3 class="post_header">{{ post.getTitle() }}</h3>
+            <div class="row">
+                <h3 class="post_header col-md-6">{{ post.getTitle() }}</h3>
+                <span class="col-md-2 post_date">{{ post.getPublishDate()|date("d.m.Y") }}</span>
+                <div class="user_min col-md-3">
+                    <div class="show_user_click" id="user_id_{{ post.getUser().getId() }}">
+                        <div class="user_avatar_min user_in_post"
+                             style="background-image: url({{ vich_uploader_asset(post.getUser(), 'avatarFile') }})"></div>
+                    </div>
+                    <span>{{ post.getUser().getUsername() }}</span>
+                </div>
+            </div>
             <div class="post_photo" style="background-image: url({{ vich_uploader_asset(post, 'pictureFile') }})"></div>
             <div class="post_actions like_post" id="like_post_id_{{ post.getId() }}">
                 {% if post.userRatedIt(app.user) %}
@@ -15,14 +25,16 @@
             <div class="comments">
                 {% for comment in post.getComments() %}
                     <div class="comment">
-                        <div class="comment_avatar">
-                            <img src="{{ comment.getUser().getAvatar() }}" alt="">
+                        <div class="comment_avatar user_avatar_min show_user_click "
+                             style="background-image: url({{ vich_uploader_asset(comment.getUser(), 'avatarFile') }})"
+                             id="{{ comment.getUser().getId() }}">
                         </div>
                         <div class="comment_text">{{ comment.getComment() }}</div>
                     </div>
                 {% else %}
                     <h2 class="grey_headers">No comments yet</h2>
                 {% endfor %}
+                {% include '@App/includes/add_comment_form.html.twig' %}
             </div>
         </div>
     </div>
@@ -30,3 +42,5 @@
     <h2 class="none_posts">{{ none_posts }}</h2>
 {% endfor %}
 <script src="{{ path('homepage') ~ 'js/like_unlike_post.js' }}"></script>
+<script src="{{ path('homepage') ~ 'js/open_user_page_by_click.js' }}"></script>
+<script src="{{ path('homepage') ~ 'js/add_comment.js' }}"></script>

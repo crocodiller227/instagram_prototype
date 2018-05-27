@@ -1,0 +1,12 @@
+<div class="input-group mb-3 comment_form">
+    <input type="text"
+           class="form-control comment_input"
+           aria-label="Default"
+           aria-describedby="inputGroup-sizing-default">
+    <div class="input-group-prepend">
+        <span
+                class="input-group-text btn btn-info add_comment_btn"
+                data-post-id="{{ post.getId() }}"
+                data-user-avatar-url="{{ vich_uploader_asset(app.user, 'avatarFile') }}">Add comment</span>
+    </div>
+</div>

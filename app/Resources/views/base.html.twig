@@ -34,7 +34,7 @@
 
 
 </head>
-<body data-root-url="{{ url('homepage') }}">
+<body data-root-url="{{ url('homepage') }}" data-current-user-id="{{ app.user.getId() ?? 0}}">
 {% include '@App/includes/navbar.html.twig' %}
 <div class="container">
 {% block body %}{% endblock %}

@@ -51,7 +51,6 @@ class PostController extends Controller
             ->getRepository(Post::class)
             ->findOneBy(['id' => $post_id]);
         $post->addLiker($current_user);
-        dump($post);
         $em->flush();
         return new JsonResponse(['message' => 'Liked!']);
     }
@@ -70,7 +69,6 @@ class PostController extends Controller
             ->getRepository(Post::class)
             ->findOneBy(['id' => $post_id]);
         $post->removeLiker($current_user);
-        dump($post);
         $em->flush();
         return new JsonResponse(['message' => 'Unliked!']);
     }

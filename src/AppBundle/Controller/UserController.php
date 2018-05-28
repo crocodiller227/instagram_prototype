@@ -26,6 +26,7 @@ class UserController extends Controller
     public function showUserProfileAction($id, EntityManagerInterface $em)
     {
         $form = '';
+        $user = null;
         $currentUser = $this->getUser();
         if ($currentUser->getId() == $id) {
             $form = $this->createForm(AddPostType::class, new Post())->createView();

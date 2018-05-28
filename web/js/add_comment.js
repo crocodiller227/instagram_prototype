@@ -21,6 +21,8 @@ $(document).ready(function () {
                 comments_div.children('.input-group').before(create_comment_div(user_avatar_url, comment))
 
             }
-        }).fail();
+        }).fail(function () {
+            $.notify("An error occurred while trying to comment. Try again", "error");
+        });
     });
 });
